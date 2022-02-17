@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     public float moveSpeed, jumpForce, waitTime;
 
-    public bool isGrounded;
+    public bool isGrounded, holdingDown, alive = true;
 
     void Start()
     {
@@ -36,20 +36,28 @@ public class PlayerMove : MonoBehaviour
             isGrounded = true;
         }
 
+        if (alive == true)
+        {
+            YourInput();
+        }
+    }
+
+    void YourInput()
+    {
         //Debug.Log(playerRB.velocity.x);
-        if (Input.GetKey("a"))
+        if (Input.GetAxisRaw("Horizontal") == -1)
         {
             playerRB.velocity = new Vector3(-moveSpeed, playerRB.velocity.y, 0);
         }
 
-        else if (Input.GetKey("d"))
+        else if (Input.GetAxisRaw("Horizontal") == 1)
         {
             playerRB.velocity = new Vector3(moveSpeed, playerRB.velocity.y, 0);
         }
 
         else { playerRB.velocity = new Vector3(0, playerRB.velocity.y, 0); }
 
-        if (Input.GetKey("space") && isGrounded == true)
+        if (Input.GetAxis("Jump") == 1 && isGrounded == true)
         {
             StartCoroutine("JumpTime");
             Jump();
@@ -58,7 +66,10 @@ public class PlayerMove : MonoBehaviour
 
     void Jump()
     {
-        playerRB.velocity = new Vector3(playerRB.velocity.x, jumpForce, 0);
+        if (holdingDown == false)
+        {
+            playerRB.velocity = new Vector3(playerRB.velocity.x, jumpForce, 0);
+        }
     }
 
     //Allows for controlled jump heights

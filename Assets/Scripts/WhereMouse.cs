@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class WhereMouse : MonoBehaviour
 {
-    public Transform whereMouseTrans;
+    public Transform cursor;
+    public Transform arrow;
+    //public Transform playerCenter;
+    public Transform shootThisWay;
 
-    void FixedUpdate()
+
+    void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+    }
 
+    void Update()
+    {
+        Vector3 relative = transform.InverseTransformPoint(cursor.position);
+        float angle = Mathf.Atan2(relative.x, relative.y);
 
+        Debug.DrawLine(arrow.position, shootThisWay.position, Color.yellow);
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction, Color.yellow);
-
-        whereMouseTrans.position = Input.mousePosition / 10;
+        cursor.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.3f));
+        arrow.transform.eulerAngles = new Vector3(0, 0, (-angle * Mathf.Rad2Deg));
     }
 }
