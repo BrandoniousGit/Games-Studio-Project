@@ -12,9 +12,9 @@ public class PlayerMove : MonoBehaviour
     public Transform playerCenter;
     public Vector3 CameraOffset;
 
-    public float moveSpeed, jumpForce, waitTime;
+    public float moveSpeed, jumpForce, timer;
 
-    public bool isGrounded, holdingDown, alive = true;
+    public bool isGrounded, alive = true;
 
     void Start()
     {
@@ -26,16 +26,41 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         cam.transform.position = playerCenter.position + CameraOffset;
-    }
 
-    void FixedUpdate()
-    {
         RaycastHit hit;
         if (Physics.SphereCast(playerCenter.position, (playerTrans.localScale.x / 2) - 0.05f, -Vector3.up, out hit, 0.1f))
         {
             isGrounded = true;
+            jumpForce = 5;
         }
 
+        ClampVelocity();
+
+        if (Input.GetAxis("Jump") == 1)
+        {
+            isGrounded = false;
+            jumpForce -= 0.06f;
+            if (jumpForce > 1.5f)
+            {
+                playerRB.velocity = new Vector3(playerRB.velocity.x, jumpForce, 0);
+            }
+        }
+        else if(Input.GetAxis("Jump") == 0)
+        {
+            jumpForce = 0;
+        }
+    }
+
+    public void ClampVelocity()
+    {
+        if (playerRB.velocity.y < -10.0f)
+        {
+            playerRB.velocity = new Vector3(playerRB.velocity.x, -10.0f, 0);
+        }
+    }
+
+    void FixedUpdate()
+    {
         if (alive == true)
         {
             YourInput();
@@ -56,26 +81,5 @@ public class PlayerMove : MonoBehaviour
         }
 
         else { playerRB.velocity = new Vector3(0, playerRB.velocity.y, 0); }
-
-        if (Input.GetAxis("Jump") == 1 && isGrounded == true)
-        {
-            StartCoroutine("JumpTime");
-            Jump();
-        }
-    }
-
-    void Jump()
-    {
-        if (holdingDown == false)
-        {
-            playerRB.velocity = new Vector3(playerRB.velocity.x, jumpForce, 0);
-        }
-    }
-
-    //Allows for controlled jump heights
-    IEnumerator JumpTime()
-    {
-        yield return new WaitForSeconds(waitTime);
-        isGrounded = false;
     }
 }
