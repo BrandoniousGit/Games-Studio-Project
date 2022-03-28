@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 49e4ff0cdf5cd5441968be111f3e00e0, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.75937027, g: 0.5705783, b: 0.3663306, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -224,7 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 60186742}
   - component: {fileID: 60186743}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Other Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 318241519}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: ShootAt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -949,7 +949,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: df66f7878e4981b438ae56e9b1410dbf, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1258,7 +1258,7 @@ GameObject:
   - component: {fileID: 1642060627}
   - component: {fileID: 1642060626}
   - component: {fileID: 1642060631}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: =-= Player =-=
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1278,13 +1278,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCenter: {fileID: 1665964752}
-  arrow: {fileID: 60186741}
   CameraOffset: {x: 0, y: 0, z: -6}
-  projectile: {fileID: 4377690403804579431, guid: d28b1abce91ceb6448f26d5ed489c974,
-    type: 3}
   moveSpeed: 4
   jumpForce: 4
-  counter: 0
+  timer: 0
   isGrounded: 0
   alive: 1
 --- !u!65 &1642060627
@@ -1481,7 +1478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1665964752}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: PlayerCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
