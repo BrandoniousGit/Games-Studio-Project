@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class PlayerMove : MonoBehaviour
 
     //Public Objects
     public Transform playerCenter;
+    public GameObject arrow;
     public Vector3 CameraOffset;
+    public GameObject projectile;
 
     //Public Variables
     public float moveSpeed, jumpForce, timeInAir, maxJumpTime, initialJump;
@@ -30,6 +33,25 @@ public class PlayerMove : MonoBehaviour
         //Camera offset
         cam.transform.position = playerCenter.position + CameraOffset;
 
+        Jump();
+        ClampVelocity();
+        Shoot();
+    }
+
+    public void Shoot()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            GameObject clone;
+            clone = Instantiate(projectile, playerTrans.position, arrow.transform.rotation);
+
+            clone.GetComponent<Rigidbody>().velocity = arrow.transform.TransformDirection(Vector3.up * 5);
+            StartCoroutine(removeBullet(clone));
+        }
+    }
+
+    public void Jump()
+    {
         RaycastHit hit;
         //Boxcast below the player to check for ground
         if (Physics.BoxCast(playerCenter.position, (playerTrans.localScale / 2) - new Vector3(0.01f, 0.05f, 0), Vector3.down, out hit, playerTrans.rotation, 0.05f) && Input.GetAxis("Jump") == 0)
@@ -40,6 +62,10 @@ public class PlayerMove : MonoBehaviour
                 timeInAir = 0f;
                 playerRB.velocity = new Vector3(0, playerRB.velocity.y, 0);
             }
+        }
+        else if (Input.GetAxis("Jump") == 0)
+        {
+            jumpForce = 0;
         }
 
         //Jump Script
@@ -102,5 +128,11 @@ public class PlayerMove : MonoBehaviour
         {
             playerRB.velocity = new Vector3(playerRB.velocity.x / 1.08f, playerRB.velocity.y, 0);
         }
+    }
+
+    IEnumerator removeBullet(GameObject bullet)
+    {
+        yield return new WaitForSeconds(100);
+        Destroy(bullet);
     }
 }
