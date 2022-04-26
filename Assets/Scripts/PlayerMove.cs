@@ -29,16 +29,16 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-            if (other.gameObject.tag == "BananaHealthSmall")
-            {
-                Destroy(other.gameObject);
-                healthBar.fillAmount += 0.25f;
-            }
-            if (other.gameObject.tag == "BananaHealthBig")
-            {
-                Destroy(other.gameObject);
-                healthBar.fillAmount += 0.40f;
-            }
+        if (other.gameObject.tag == "BananaHealthSmall")
+        {
+            Destroy(other.gameObject);
+            healthBar.fillAmount += 0.25f;
+        }
+        if (other.gameObject.tag == "BananaHealthBig")
+        {
+            Destroy(other.gameObject);
+            healthBar.fillAmount += 0.40f;
+        }
         if (other.gameObject.tag == "DeathPlane")
         {
 

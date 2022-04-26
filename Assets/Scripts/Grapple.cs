@@ -9,9 +9,9 @@ public class Grapple : MonoBehaviour
   public LayerMask whatIsGrappleable;
   public Transform gunTip, player;
   private SpringJoint joint;
-    public bool isGrappling;
+  public bool isGrappling;
 
-    public float hotUpdateSpring, hotUpdateDampen, maxDistance;
+  public float hotUpdateSpring, hotUpdateDampen, maxDistance;
 
   private void Awake()
   {
@@ -20,14 +20,14 @@ public class Grapple : MonoBehaviour
 
   private void Update()
   {
-    if (Input.GetMouseButtonDown(0))
-    {
-      StartGrapple();
-    }
-    else if (Input.GetMouseButtonUp(0))
-    {
-      StopGrapple();
-    }
+        if (Input.GetMouseButtonDown(0) && PauseMenu.paused == false)
+        {
+          StartGrapple();
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+          StopGrapple();
+        }
   }
 
   private void LateUpdate()
@@ -37,28 +37,28 @@ public class Grapple : MonoBehaviour
 
   void StartGrapple()
   {
-    RaycastHit hit;
-    if (Physics.Raycast(player.position, gunTip.up, out hit, maxDistance, whatIsGrappleable))
-    {
-            isGrappling = true;
-            grapplePoint = hit.point;
+        RaycastHit hit;
+        if (Physics.Raycast(player.position, gunTip.up, out hit, maxDistance, whatIsGrappleable))
+        {
+                isGrappling = true;
+                grapplePoint = hit.point;
 
-            joint = player.gameObject.AddComponent<SpringJoint>();
-            joint.autoConfigureConnectedAnchor = false;
-            joint.connectedAnchor = grapplePoint;
+                joint = player.gameObject.AddComponent<SpringJoint>();
+                joint.autoConfigureConnectedAnchor = false;
+                joint.connectedAnchor = grapplePoint;
 
-            float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
+                float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
-            // The distance grapple will try to keep from grapple point
-            joint.maxDistance = distanceFromPoint * 0.011f;
-            joint.minDistance = 0;
+                // The distance grapple will try to keep from grapple point
+                joint.maxDistance = distanceFromPoint * 0.011f;
+                joint.minDistance = 0;
 
-            joint.spring = hotUpdateSpring;
-            joint.damper = hotUpdateDampen;
-            joint.massScale = 4.5f;
+                joint.spring = hotUpdateSpring;
+                joint.damper = hotUpdateDampen;
+                joint.massScale = 4.5f;
 
-            lr.positionCount = 2;
-    }
+                lr.positionCount = 2;
+        }
   }
 
   void DrawRope()
