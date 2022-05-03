@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
     //Private variables
     private Camera cam;
     private Rigidbody playerRB;
-    private Transform playerTrans;
+    public Transform playerTrans;
 
     //Public Objects
     public Transform playerCenter;
@@ -50,17 +50,7 @@ public class PlayerMove : MonoBehaviour
         //Camera offset
         //cam.transform.position = playerCenter.position + cameraOffset;
 
-        RaycastHit hit;
-        //Boxcast below the player to check for ground
-        if (Physics.BoxCast(playerCenter.position, (playerTrans.localScale / 2) - new Vector3(0.01f, 0.05f, 0), Vector3.down, out hit, playerTrans.rotation, 0.05f) && Input.GetAxis("Jump") == 0)
-        {
-            if (hit.collider.tag != "Pickups")
-            {
-                canJump = true;
-                timeInAir = 0f;
-                playerRB.velocity = new Vector3(0, playerRB.velocity.y, 0);
-            }
-        }
+
 
         //Jump Script
         if (Input.GetButton("Jump") && canJump == true && GetComponent<Grapple>().isGrappling == false)
@@ -96,6 +86,22 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        RaycastHit hit;
+        //SphereCast below the player to check for ground
+        if (Physics.SphereCast(playerCenter.position, playerTrans.localScale.x / 2, Vector3.down, out hit, 0.15f) && Input.GetAxis("Jump") == 0)
+        {
+            Debug.Log("I am hitting");
+            if (hit.collider.tag != "Pickups")
+            {
+                canJump = true;
+                timeInAir = 0f;
+                playerRB.velocity = new Vector3(0, playerRB.velocity.y, 0);
+            }
+        }
+    }
+
     //Other input in fixed update
     void FixedUpdate()
     {
@@ -120,7 +126,7 @@ public class PlayerMove : MonoBehaviour
 
         else if (GetComponent<Grapple>().isGrappling == false)
         {
-            playerRB.velocity = new Vector3(playerRB.velocity.x / 1.07f, playerRB.velocity.y, 0);
+            //playerRB.velocity = new Vector3(playerRB.velocity.x / 1.07f, playerRB.velocity.y, 0);
         }
     }
 }
